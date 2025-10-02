@@ -1,21 +1,23 @@
+using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Entity : MonoBehaviour
 {
-    private Animator anim;
-    private Rigidbody2D rb;
+    protected Animator anim;
+    protected Rigidbody2D rb;
 
     [Header("Attack details")]
-    [SerializeField] private float attackRadius;
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private LayerMask whatIsEnemy;
+    [SerializeField] protected float attackRadius;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] protected LayerMask whatIsTarget;
 
     [Header("Movement details")]
-    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] protected float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 8;
+    protected int facingDir = 1;
+    protected bool canMove = true;
     private float xInput;
     private bool facingRight = true;
-    private bool canMove = true;
     private bool canJump = true;
 
     [Header("Collision details")]
@@ -30,23 +32,30 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {       
+        HandleCollision();
         HandleInput();
         HandleMovement();
         HandleAnimations();
         HandleFlip();
-        HandleCollision();
     }
 
-    public void DamageEnemies() 
+    public void DamageTargets() 
     {
-       Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsEnemy);
+       Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsTarget);
 
          foreach (Collider2D enemy in enemyColliders) 
          {
-                enemy.GetComponent<Enemy>().TakeDamage();
+            Entity entityTarget = enemy.GetComponent<Entity>();
+            entityTarget.TakeDamage();
+
          }
+    }
+
+    private void TakeDamage()
+    {
+        //throw new NotImplementedException();
     }
 
     public void EnableMovementAndJump(bool enable) 
@@ -56,7 +65,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void HandleAnimations()
+    protected void HandleAnimations()
     {
         anim.SetFloat("xVelocity", rb.linearVelocity.x);
         anim.SetFloat("yVelocity", rb.linearVelocity.y);
@@ -71,10 +80,10 @@ public class Player : MonoBehaviour
             TryToJump();
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-            TryToAttack();
+            HandleAttack();
     }
 
-    private void TryToAttack() 
+    protected virtual void HandleAttack() 
     {
         if (isGrounded) 
         {
@@ -89,7 +98,7 @@ public class Player : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);  
     }
 
-    private void HandleMovement()
+    protected virtual void HandleMovement()
     {
         if (canMove)
              rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
@@ -97,12 +106,12 @@ public class Player : MonoBehaviour
              rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
-    private void HandleCollision() 
+    protected virtual void HandleCollision() 
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
-    private void HandleFlip() 
+    protected void HandleFlip() 
     {
         if (rb.linearVelocity.x > 0 && facingRight == false)
             Flip();
@@ -115,6 +124,7 @@ public class Player : MonoBehaviour
     {
        transform.Rotate(0, 180, 0);
        facingRight = !facingRight;
+        facingDir = facingDir * -1;
     }
 
     private void OnDrawGizmos()

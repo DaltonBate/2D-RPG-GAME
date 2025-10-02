@@ -1,43 +1,39 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+
+public class Enemy : Entity
 {
-    private SpriteRenderer sr;
-     
-    [SerializeField] private float redColorDuration = 1;
 
-    public float currentTimeInGame;
-    public float lastTimeDamaged;
+    private bool playerDetected;
 
-    private void Awake()
+    protected override void Update()
     {
-        sr = GetComponent<SpriteRenderer>();
+        HandleCollision();
+        HandleAnimations();
+        HandleMovement();
+        HandleFlip();  
+        HandleAttack();
     }
 
-    private void Update()
+    protected override void HandleAttack()
     {
-        ChangeColorIfNeeded();
-    }
-
-    private void ChangeColorIfNeeded()
-    {
-        currentTimeInGame = Time.time;
-
-        if (currentTimeInGame > lastTimeDamaged + redColorDuration)
+        if (playerDetected) 
         {
-            TurnWhite();
+            anim.SetTrigger("attack");
         }
     }
 
-    public void TakeDamage() 
+    protected override void HandleMovement()
     {
-        sr.color = Color.red;
-        lastTimeDamaged = Time.time;
+        if (canMove)
+            rb.linearVelocity = new Vector2(facingDir * moveSpeed, rb.linearVelocity.y);
+        else
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 
-    private void TurnWhite()  
-    {         
-        sr.color = Color.white;
+    protected override void HandleCollision()
+    {
+        base.HandleCollision();
+        playerDetected = Physics2D.OverlapCircle(attackPoint.position, attackRadius, whatIsTarget);
     }
-
 }
