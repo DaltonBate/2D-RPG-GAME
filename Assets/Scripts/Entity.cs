@@ -143,7 +143,7 @@ public class Entity : MonoBehaviour
     }
     
 
-    protected void Flip() 
+    public void Flip() 
     {
        transform.Rotate(0, 180, 0);
        facingRight = !facingRight;
