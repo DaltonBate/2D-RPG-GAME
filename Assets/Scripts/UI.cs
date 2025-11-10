@@ -67,7 +67,7 @@ public class UI : MonoBehaviour
         }
 
         // usually you want to pause the game on win (use 0). 15 would speed the game up.
-        Time.timeScale = 0.5f;
+        Time.timeScale = 1f;
         gameWonUI.SetActive(true);
         isGameWon = true;
     }

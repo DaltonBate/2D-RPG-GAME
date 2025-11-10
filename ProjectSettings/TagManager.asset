@@ -15,7 +15,7 @@ TagManager:
   - Enemy
   - Player
   - Level_Limit
-  - 
+  - Portal
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Characters
     uniqueID: 1057160777
+    locked: 0
+  - name: Portal
+    uniqueID: 2749544089
     locked: 0
   m_RenderingLayers:
   - Default
