@@ -22,7 +22,7 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        // simple singleton safety
+        // Singleton safety
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -30,14 +30,12 @@ public class UI : MonoBehaviour
         }
         Instance = this;
 
-        // Use realtime so changing Time.timeScale doesn't affect the recorded start time
         levelStartTime = Time.realtimeSinceStartup;
         Time.timeScale = 1f;
     }
 
     private void Update()
     {
-        // Only update timer while the game is running (not game over or won)
         if (!isGameOver && !isGameWon)
         {
             float elapsedTime = Time.realtimeSinceStartup - levelStartTime;
@@ -45,39 +43,37 @@ public class UI : MonoBehaviour
             if (timerText != null)
                 timerText.text = elapsedTime.ToString("F2") + "s";
 
-            // Win condition: trigger when elapsed meets or exceeds winTimeSeconds
+            //  When time runs out, trigger full win logic (including portal activation)
             if (elapsedTime >= winTimeSeconds)
             {
-                // show exact win time on the timer to avoid a slight overshoot display
                 if (timerText != null)
                     timerText.text = winTimeSeconds.ToString("F2") + "s";
 
-                EnableGameWonUI();
+                HandleWinCondition(); //  now correctly triggers GameManager.WinGame()
             }
         }
     }
 
-    public void EnableGameWonUI()
+    private void HandleWinCondition()
     {
-        Debug.Log("EnableGameWonUI called on UI.Instance");
-        if (gameWonUI == null)
-        {
-            Debug.LogWarning("gameWonUI is not assigned on UI (check Inspector)");
-            return;
-        }
+        if (isGameWon) return; // prevents double triggering
 
-        // usually you want to pause the game on win (use 0). 15 would speed the game up.
-        Time.timeScale = 1f;
-        gameWonUI.SetActive(true);
         isGameWon = true;
+
+        if (gameWonUI != null)
+            gameWonUI.SetActive(true);
+
+        Time.timeScale = 1f;
+
+        Debug.Log(" HandleWinCondition() triggered, notifying GameManager...");
+        GameManager.Instance?.WinGame();
     }
 
     public void EnableGameOverUI()
     {
-        Debug.Log("EnableGameOverUI called on UI.Instance");
         if (gameOverUI == null)
         {
-            Debug.LogWarning("gameOverUI is not assigned on UI (check Inspector)");
+            Debug.LogWarning("gameOverUI not assigned!");
             return;
         }
 
@@ -100,3 +96,4 @@ public class UI : MonoBehaviour
             killCountText.text = killCount.ToString();
     }
 }
+

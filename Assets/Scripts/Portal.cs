@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     [SerializeField] private string nextLevelName;
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
