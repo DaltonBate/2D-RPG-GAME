@@ -12,9 +12,6 @@ public class UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI killCountText;
 
-    [Header("Win Settings")]
-    [SerializeField] private float winTimeSeconds = 30f;
-
     private float levelStartTime;
     private int killCount;
     private bool isGameOver;
@@ -42,19 +39,10 @@ public class UI : MonoBehaviour
 
             if (timerText != null)
                 timerText.text = elapsedTime.ToString("F2") + "s";
-
-            //  When time runs out, trigger full win logic (including portal activation)
-            if (elapsedTime >= winTimeSeconds)
-            {
-                if (timerText != null)
-                    timerText.text = winTimeSeconds.ToString("F2") + "s";
-
-                HandleWinCondition(); //  now correctly triggers GameManager.WinGame()
-            }
         }
     }
 
-    private void HandleWinCondition()
+    public void HandleWinCondition()
     {
         if (isGameWon) return; // prevents double triggering
 

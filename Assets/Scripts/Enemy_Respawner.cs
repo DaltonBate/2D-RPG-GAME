@@ -44,7 +44,7 @@ public class Enemy_Respawner : MonoBehaviour
         // Cap check (safe API)
         if (maxActiveEnemies > 0)
         {
-            int current = FindObjectsOfType<Enemy>().Length;
+            int current = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
             if (current >= maxActiveEnemies)
             {
                 Debug.Log($"Enemy_Respawner: skip spawn — active enemies {current} >= cap {maxActiveEnemies}");

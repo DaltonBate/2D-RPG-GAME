@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2448135499574129418, guid: 235f4093feeffb84f8d796799681f1bd, type: 3}
+      propertyPath: detectionRange
+      value: 52
+      objectReference: {fileID: 0}
     - target: {fileID: 3256028911494036645, guid: 235f4093feeffb84f8d796799681f1bd, type: 3}
       propertyPath: m_Name
       value: Goblin Variant

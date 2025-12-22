@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Enemy : Entity
@@ -6,6 +7,9 @@ public class Enemy : Entity
     [SerializeField] protected float moveSpeed = 3.5f;
 
     private bool playerDetected;
+
+    // Event invoked when an enemy dies. Other systems can subscribe to track kills.
+    public static event Action<Enemy> OnEnemyKilled;
 
     protected override void Update()
     {
@@ -39,6 +43,11 @@ public class Enemy : Entity
     protected override void Die()
     {
         base.Die();
-        UI.Instance.AddKillCount();
+
+        // existing UI increment
+        UI.Instance?.AddKillCount();
+
+        // notify subscribers
+        OnEnemyKilled?.Invoke(this);
     }
 }

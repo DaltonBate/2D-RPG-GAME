@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a5f8a28830b1a3a4da73167ede0f1179
+guid: b18f8e933f5ccd047b61742f8fa0d647
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7418321431478606112
-    second: Hills Layer 07_0
+      213: 8119445616424396284
+    second: Purple_Nebula_07-1024x1024_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hills Layer 07_0
+      name: Purple_Nebula_07-1024x1024_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 256
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 02913f8b90c23f660800000000000000
-      internalID: 7418321431478606112
+      spriteID: cf5241cf4c01ea070800000000000000
+      internalID: 8119445616424396284
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hills Layer 07_0: 7418321431478606112
+      Purple_Nebula_07-1024x1024_0: 8119445616424396284
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
